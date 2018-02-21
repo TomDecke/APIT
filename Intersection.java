@@ -49,9 +49,9 @@ public class Intersection {
 	 * @param col the column to move to
 	 */
 	public void occupyField(Car car, int row, int col) {
-		if(checkField(row, col)) {
+	//	if(checkField(row, col)) {
 			grid[row][col] = car;
-		}
+	//	}
 		
 	}
 	

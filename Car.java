@@ -11,13 +11,20 @@ public class Car implements Runnable{
 	private final int MIN_SPEED = 50;
 	private final int MAX_SPEED = 500;
 	
-	//current position of the car in the grid
-	private int currentRow;
-	private int currentColumn;
-	//initial properties
+	//initial properties of the car
 	private int speed;
 	private String symbol;
 	private MoveSet move;
+	private boolean onGrid;
+	
+	//current position of the car in the grid
+	private int currentRow;
+	private int currentColumn;
+	
+	//properties of the intersection
+	private Intersection intersection;
+	private int numRows;
+	private int numCols;
 	
 	/**
 	 * Constructor to create a car object.
@@ -26,12 +33,21 @@ public class Car implements Runnable{
 	 * @param symbol String for the representation on the grid
 	 * @param row int starting row
 	 * @param col int starting column
+	 * @param Intersection the intersection on which the car moves
 	 */
-	public Car(MoveSet move, String symbol, int row, int col) {
+	public Car(MoveSet move, String symbol, int row, int col, Intersection intersection) {
+				
+		//information about intersection
+		this.intersection = intersection;
+		numRows = intersection.getRows();
+		numCols = intersection.getColumns();
+		
+		//information about the car
 		this.move = move;
 		this.symbol = symbol;
 		currentRow = row;
 		currentColumn = col;
+		onGrid = true;
 		
 		//calculate a random number for the movement speed between MIN_SPEED and MAX_SPEED
 		Random rand = new Random();
@@ -39,32 +55,40 @@ public class Car implements Runnable{
 	}
 
 	/**
-	 * move the car in the grid
+	 * move the car on the grid
 	 */
 	public void moveCar() {
 		//get the movement direction of the car
 		String currentMove = move.getMoves();
-		
-		//based on the direction, execute the movement
+		//based on the direction, check if you have reached the end of the grid and then execute the movement
 		switch (currentMove) {
 		case "NORTH":
-			System.out.println("north");
-			break;
+			if (currentRow - 1 < 0) {
+				intersection.leaveField(this);
+				onGrid = false;
+			}
+			else {
+				intersection.occupyField(this, currentRow-1, currentColumn);
+				intersection.leaveField(this);
+				currentRow--;
+			}
 
 		case "EAST":
-			System.out.println("east");			
-			break;
+			if (currentColumn + 1 > numCols) {
+				onGrid = false;
+			}
+			
 			
 		case "SOUTH":
-			System.out.println("south");
-			break;
+			if(currentRow + 1 > numRows) {
+				onGrid = false;
+			}
+			
 
 		case "WEST":
-			System.out.println("west");
-			break;
-		default:
-			System.err.println("Invalid move");
-			break;
+			if(currentColumn - 1 < 0) {
+				onGrid = false;
+			}
 		}
 		
 	}
@@ -74,7 +98,12 @@ public class Car implements Runnable{
 	 */
 	@Override
 	public void run() {
-
+		while(onGrid) {
+			try {
+				Thread.sleep(speed);
+				moveCar();
+			} catch (InterruptedException e) {}
+		}
 	}
 	
 	/**
