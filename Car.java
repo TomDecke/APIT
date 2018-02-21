@@ -60,35 +60,74 @@ public class Car implements Runnable{
 	public void moveCar() {
 		//get the movement direction of the car
 		String currentMove = move.getMoves();
-		//based on the direction, check if you have reached the end of the grid and then execute the movement
+		//based on the direction, check if you have reached the end of the grid and if not execute the movement
 		switch (currentMove) {
 		case "NORTH":
+			//check if the end of the board is reached
 			if (currentRow - 1 < 0) {
 				intersection.leaveField(this);
 				onGrid = false;
 			}
+			//check if you are entering the board
+			else if(currentRow == numRows-1) {
+				intersection.occupyField(this, currentRow, currentColumn);
+			}
+			//move one field
 			else {
 				intersection.occupyField(this, currentRow-1, currentColumn);
 				intersection.leaveField(this);
-				currentRow--;
 			}
+			//update position
+			currentRow--;
+			break;
 
+		//analogous to case "NORTH"
 		case "EAST":
-			if (currentColumn + 1 > numCols) {
+			if (currentColumn + 1 >= numCols) {
+				intersection.leaveField(this);
 				onGrid = false;
 			}
+			else if(currentColumn == 0) {
+				intersection.occupyField(this, currentRow, currentColumn);
+			}
+			else {
+				intersection.occupyField(this, currentRow, currentColumn + 1);
+				intersection.leaveField(this);
+			}
+			currentColumn++;
+			break;
 			
 			
 		case "SOUTH":
-			if(currentRow + 1 > numRows) {
+			if(currentRow + 1 >= numRows) {
+				intersection.leaveField(this);
 				onGrid = false;
 			}
+			else if(currentRow == 0) {
+				intersection.occupyField(this, currentRow, currentColumn);
+			}
+			else {
+				intersection.occupyField(this, currentRow + 1, currentColumn);
+				intersection.leaveField(this);
+			}
+			currentRow++;
+			break;
 			
 
 		case "WEST":
 			if(currentColumn - 1 < 0) {
+				intersection.leaveField(this);
 				onGrid = false;
 			}
+			else if(currentColumn == numCols-1) {
+				intersection.occupyField(this, currentRow, currentColumn);
+			}
+			else {
+				intersection.occupyField(this, currentRow, currentColumn-1);
+				intersection.leaveField(this);
+			}
+			currentColumn--;
+			break;
 		}
 		
 	}

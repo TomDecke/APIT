@@ -28,7 +28,7 @@ public class Simulator implements Runnable{
 	 * Draws the intersection in it's current state
 	 * @param execution number of the execution
 	 */
-	public void draw(int execution) {
+	public void drawGrid(int execution) {
 		System.out.println("Execution: "+ execution);
 		
 
@@ -74,7 +74,7 @@ public class Simulator implements Runnable{
 		while(counter <= cap) {
 			try {
 				Thread.sleep(INTERVALL);
-				draw(counter);
+				drawGrid(counter);
 			} catch (InterruptedException e) {}
 		
 			counter++;
