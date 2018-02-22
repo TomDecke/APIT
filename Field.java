@@ -14,6 +14,7 @@ public class Field {
 	private Car curCar;
 	private boolean occupied;
 	
+	//create lock and condition to manage "one car per field at a time"
 	private ReentrantLock fieldLock = new ReentrantLock();
 	private Condition available = fieldLock.newCondition();
 	
@@ -44,13 +45,14 @@ public class Field {
 	public void leaveField() {
 		fieldLock.lock();
 		try {
-			occupied = false;
+			//remove car and set occupied to false
 			curCar = null;
+			occupied = false;
+			//signal all waiting cars
 			available.signalAll();
 		}finally {
 			fieldLock.unlock();
 		}
-		
 	}
 	
 	/**
@@ -61,9 +63,11 @@ public class Field {
 		fieldLock.lock();
 		
 		try {
+			//wait for a field to become available
 			while(occupied) {
 				available.await();
 			}
+			//occupy the field and remark it in the occupied variable
 			occupied = true;
 			curCar = car;
 			
