@@ -69,8 +69,8 @@ public class Car implements Runnable{
 			}
 			//move one field
 			else {
-				intersection.occupyField(this, currentRow-1, currentColumn);
-				intersection.leaveField(this);
+				intersection.getFieldAtPosition(currentRow-1,currentColumn).occupyField(this);
+				intersection.getFieldAtPosition(currentRow,currentColumn).leaveField();
 				//update position
 				currentRow--;
 			}
@@ -82,8 +82,8 @@ public class Car implements Runnable{
 				removeCarFromGrid();
 			}
 			else {
-				intersection.occupyField(this, currentRow, currentColumn + 1);
-				intersection.leaveField(this);
+				intersection.getFieldAtPosition(currentRow,currentColumn +1).occupyField(this);
+				intersection.getFieldAtPosition(currentRow,currentColumn).leaveField();
 				currentColumn++;
 			}
 			break;
@@ -94,8 +94,8 @@ public class Car implements Runnable{
 				removeCarFromGrid();
 			}
 			else {
-				intersection.occupyField(this, currentRow + 1, currentColumn);
-				intersection.leaveField(this);
+				intersection.getFieldAtPosition(currentRow+1,currentColumn).occupyField(this);
+				intersection.getFieldAtPosition(currentRow,currentColumn).leaveField();
 				currentRow++;
 			}
 			break;
@@ -106,8 +106,8 @@ public class Car implements Runnable{
 				removeCarFromGrid();
 			}
 			else {
-				intersection.occupyField(this, currentRow, currentColumn-1);
-				intersection.leaveField(this);
+				intersection.getFieldAtPosition(currentRow,currentColumn-1).occupyField(this);
+				intersection.getFieldAtPosition(currentRow,currentColumn).leaveField();
 				currentColumn--;
 			}
 			break;
@@ -120,14 +120,14 @@ public class Car implements Runnable{
 	 */
 	public void addCarToGrid() {
 		//TODO do I need verification?
-		intersection.occupyField(this, currentRow, currentColumn);
+		intersection.getFieldAtPosition(currentRow, currentColumn).occupyField(this);
 	}
 	
 	/**
 	 * Method to remove a car from the grid
 	 */
 	public void removeCarFromGrid() {
-		intersection.leaveField(this);
+		intersection.getFieldAtPosition(currentRow, currentColumn).leaveField();
 		onGrid = false;
 	}
 

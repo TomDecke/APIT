@@ -82,7 +82,7 @@ public class CarGenerator implements Runnable{
 		while(active) {
 			try {
 				//slow down the car creation
-				Thread.sleep(150);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {}
 			Car cCar = generateCar();
 			cCar.addCarToGrid();

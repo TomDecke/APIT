@@ -41,27 +41,7 @@ public class Intersection {
 		}
 	}
 	
-	/**
-	 * Removes car from the field it was on
-	 * @param car Car that is currently occupying the field
-	 */
-	public void leaveField(Car car) {
-		grid[car.getCurrentRow()][car.getCurrentColumn()].setCurCar(null);
-	}
-	
-	/**
-	 * moves a car to another field
-	 * @param car the car to be moved
-	 * @param row the row to move to
-	 * @param col the column to move to
-	 */
-	public void occupyField(Car car, int row, int col) {
-	//	if(checkField(row, col)) {
-			grid[row][col].setCurCar(car);
-	//	}
-		
-	}
-	
+
 	/**
 	 * Accessor for the car grid
 	 * @return Car[][] the intersection
