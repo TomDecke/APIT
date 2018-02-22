@@ -1,3 +1,5 @@
+import java.util.*;
+
 /**
  * Class to display the intersection
  * @author Tom
@@ -12,16 +14,21 @@ public class Simulator implements Runnable{
 	private int numRows;
 	private int numCols;
 	
+	//private ArrayList<CarGenerator> carGen;
+	private CarGenerator carGen;
+	
 	/**
 	 * Constructor to create a simulator
 	 * @param intersection the intersection that is to be drawn
 	 * @param cap the number of times the grid should be drawn
 	 */
-	public Simulator(Intersection intersection, int cap) {
+	public Simulator(Intersection intersection, int cap, CarGenerator carGenerator) {
 		this.cap = cap;
 		grid = intersection.getGrid();
 		numCols = intersection.getColumns();
 		numRows = intersection.getRows();
+		
+		this.carGen = carGenerator;
 	}
 	
 	/**
@@ -79,6 +86,12 @@ public class Simulator implements Runnable{
 		
 			counter++;
 		}
+		//reached the end of drawings? Stop producing cars
+		carGen.setActive(false);
+//		for(CarGenerator c : carGen) {
+//		c.setActive(false);
+//	}
+		
 		
 	}
 

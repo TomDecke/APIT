@@ -65,71 +65,70 @@ public class Car implements Runnable{
 		case "NORTH":
 			//check if the end of the board is reached
 			if (currentRow - 1 < 0) {
-				intersection.leaveField(this);
-				onGrid = false;
-			}
-			//check if you are entering the board
-			else if(currentRow == numRows-1) {
-				intersection.occupyField(this, currentRow, currentColumn);
+				removeCarFromGrid();
 			}
 			//move one field
 			else {
 				intersection.occupyField(this, currentRow-1, currentColumn);
 				intersection.leaveField(this);
+				//update position
+				currentRow--;
 			}
-			//update position
-			currentRow--;
 			break;
 
 		//analogous to case "NORTH"
 		case "EAST":
 			if (currentColumn + 1 >= numCols) {
-				intersection.leaveField(this);
-				onGrid = false;
-			}
-			else if(currentColumn == 0) {
-				intersection.occupyField(this, currentRow, currentColumn);
+				removeCarFromGrid();
 			}
 			else {
 				intersection.occupyField(this, currentRow, currentColumn + 1);
 				intersection.leaveField(this);
+				currentColumn++;
 			}
-			currentColumn++;
 			break;
 			
 			
 		case "SOUTH":
 			if(currentRow + 1 >= numRows) {
-				intersection.leaveField(this);
-				onGrid = false;
-			}
-			else if(currentRow == 0) {
-				intersection.occupyField(this, currentRow, currentColumn);
+				removeCarFromGrid();
 			}
 			else {
 				intersection.occupyField(this, currentRow + 1, currentColumn);
 				intersection.leaveField(this);
+				currentRow++;
 			}
-			currentRow++;
 			break;
 			
 
 		case "WEST":
 			if(currentColumn - 1 < 0) {
-				intersection.leaveField(this);
-				onGrid = false;
-			}
-			else if(currentColumn == numCols-1) {
-				intersection.occupyField(this, currentRow, currentColumn);
+				removeCarFromGrid();
 			}
 			else {
 				intersection.occupyField(this, currentRow, currentColumn-1);
 				intersection.leaveField(this);
+				currentColumn--;
 			}
-			currentColumn--;
 			break;
 		}
 		
+	}
+	
+	/**
+	 * Method to place a car on the grid
+	 */
+	public void addCarToGrid() {
+		//TODO do I need verification?
+		intersection.occupyField(this, currentRow, currentColumn);
+	}
+	
+	/**
+	 * Method to remove a car from the grid
+	 */
+	public void removeCarFromGrid() {
+		intersection.leaveField(this);
+		onGrid = false;
 	}
 
 	/**
@@ -175,6 +174,14 @@ public class Car implements Runnable{
 	 */
 	public String getSymbol() {
 		return symbol;
+	}
+	
+	/**
+	 * Accessor for the boolean stating if the car is on the grid
+	 * @return boolean whether the car is on the grid
+	 */
+	public boolean getOnGrid() {
+		return onGrid; 
 	}
 
 
