@@ -9,7 +9,7 @@ public class Simulator implements Runnable{
 
 	//time intervall between the drawing of intersections
 	private final int INTERVALL = 20;
-	private Car[][] grid;
+	private Field[][] grid;
 	private int cap;
 	private int numRows;
 	private int numCols;
@@ -45,7 +45,7 @@ public class Simulator implements Runnable{
 		//iterate over the grid and draw occupied fields 
 		for (int x = 0; x < numRows; x++) {
 			for (int y = 0; y < numCols; y++) {
-				currentCar = grid[x][y];
+				currentCar = grid[x][y].getCurCar();
 				if(currentCar != null) {
 					System.out.print("|"+currentCar.getSymbol());
 				}

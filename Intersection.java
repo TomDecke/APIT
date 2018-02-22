@@ -4,7 +4,7 @@
  *
  */
 public class Intersection {
-	private Car[][] grid;
+	private Field[][] grid;
 	private int rows;
 	private int cols;
 	
@@ -14,7 +14,14 @@ public class Intersection {
 	 * @param dimN int number of columns
 	 */
 	public Intersection(int dimM, int dimN) {
-		grid = new Car[dimM][dimN];
+		
+		//set up the grid
+		grid = new Field[dimM][dimN];
+		for(int x = 0; x < dimM; x++) {
+			for(int y = 0; y < dimN; y++) {
+				grid[x][y] = new Field(x,y);
+			}
+		}
 		rows = dimM;
 		cols = dimN;
 	}
@@ -39,7 +46,7 @@ public class Intersection {
 	 * @param car Car that is currently occupying the field
 	 */
 	public void leaveField(Car car) {
-		grid[car.getCurrentRow()][car.getCurrentColumn()] = null;
+		grid[car.getCurrentRow()][car.getCurrentColumn()].setCurCar(null);
 	}
 	
 	/**
@@ -50,7 +57,7 @@ public class Intersection {
 	 */
 	public void occupyField(Car car, int row, int col) {
 	//	if(checkField(row, col)) {
-			grid[row][col] = car;
+			grid[row][col].setCurCar(car);
 	//	}
 		
 	}
@@ -59,8 +66,18 @@ public class Intersection {
 	 * Accessor for the car grid
 	 * @return Car[][] the intersection
 	 */
-	public Car[][] getGrid() {
+	public Field[][] getGrid() {
 		return grid;
+	}
+	
+	/**
+	 * 
+	 * @param row int position in the row
+	 * @param col int position in the column
+	 * @return Field the field at the specified position
+	 */
+	public Field getFieldAtPosition(int row, int col) {
+		return grid[row][col];
 	}
 	
 	/**
