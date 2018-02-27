@@ -18,10 +18,10 @@ public class Main2 {
 				carGen.add(new HorizontalGenerator(intersection, i, 3));
 			}
 			else if( i < 20) {
-				carGen.add(i, new VerticalGenerator(intersection, i-20, 0));
+				carGen.add(i, new VerticalGenerator(intersection, i-10, 0));
 			}
 			else {
-				carGen.add(i, new VerticalGenerator(intersection, i-20, 2));
+				carGen.add(i, new VerticalGenerator(intersection, i-10, 2));
 			}
 		}
 		

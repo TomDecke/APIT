@@ -11,7 +11,7 @@ public class HorizontalGenerator extends CarGenerator{
 	private int row;
 	private String firstDirection;
 	private String symbol = "-";
-
+	
 	//Constructor to create 
 	/**
 	 * constructor to create
