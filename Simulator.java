@@ -14,15 +14,15 @@ public class Simulator implements Runnable{
 	private int numRows;
 	private int numCols;
 	
-	//private ArrayList<CarGenerator> carGen;
-	private CarGenerator carGen;
+	private ArrayList<CarGenerator> carGen;
+	//private CarGenerator carGen;
 	
 	/**
 	 * Constructor to create a simulator
 	 * @param intersection the intersection that is to be drawn
 	 * @param cap the number of times the grid should be drawn
 	 */
-	public Simulator(Intersection intersection, int cap, CarGenerator carGenerator) {
+	public Simulator(Intersection intersection, int cap, ArrayList<CarGenerator> carGenerator) {
 		this.cap = cap;
 		grid = intersection.getGrid();
 		numCols = intersection.getColumns();
@@ -87,10 +87,10 @@ public class Simulator implements Runnable{
 			counter++;
 		}
 		//reached the end of drawings? Stop producing cars
-		carGen.setActive(false);
-//		for(CarGenerator c : carGen) {
-//		c.setActive(false);
-//	}
+//		carGen.setActive(false);
+		for(CarGenerator c : carGen) {
+		c.setActive(false);
+	}
 		
 		
 	}

@@ -16,6 +16,7 @@ public class Car implements Runnable{
 	private String symbol;
 	private MoveSet move;
 	private boolean onGrid;
+	private long travelTime;
 	
 	//current position of the car in the grid
 	private int currentRow;
@@ -119,8 +120,9 @@ public class Car implements Runnable{
 	 * Method to place a car on the grid
 	 */
 	public void addCarToGrid() {
-		//TODO do I need verification?
 		intersection.getFieldAtPosition(currentRow, currentColumn).occupyField(this);
+		//remember the time when the car enters the intersection
+		travelTime = System.currentTimeMillis();
 	}
 	
 	/**
@@ -129,6 +131,9 @@ public class Car implements Runnable{
 	public void removeCarFromGrid() {
 		intersection.getFieldAtPosition(currentRow, currentColumn).leaveField();
 		onGrid = false;
+		//calculate the time it took a single car to cross the intersection
+		long endTime = System.currentTimeMillis();
+		travelTime = endTime - travelTime;
 	}
 
 	/**
@@ -182,6 +187,14 @@ public class Car implements Runnable{
 	 */
 	public boolean getOnGrid() {
 		return onGrid; 
+	}
+	
+	/**
+	 * Accessor for the time a car spent on the intersection
+	 * @return long 
+	 */
+	public long getTravelTime() {
+		return travelTime;
 	}
 
 
