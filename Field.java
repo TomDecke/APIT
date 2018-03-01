@@ -1,4 +1,3 @@
-import java.util.concurrent.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -9,8 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Field {
 
-	private int posRow;
-	private int posCol;
+	//instance variables to represent the occupation status of the field
 	private Car curCar;
 	private boolean occupied;
 	
@@ -20,20 +18,16 @@ public class Field {
 	
 	/**
 	 * Constructor to create a field 
-	 * @param row int row position in the grid
-	 * @param column int column position in the grid
 	 */
-	public Field(int row, int column) {
-		posRow = row;
-		posCol = column;
+	public Field() {
 		curCar = null;
 		occupied = false;
 	}
 	
-	public void setCurCar(Car car) {
-		curCar = car;
-	}
-	
+	/**
+	 * Accessor for the car on the field
+	 * @return Car the car that is on this field
+	 */
 	public Car getCurCar() {
 		return curCar;
 	}
@@ -48,7 +42,7 @@ public class Field {
 			//remove car and set occupied to false
 			curCar = null;
 			occupied = false;
-			//signal all waiting cars
+			//signal all waiting cars that the field is now empty
 			available.signalAll();
 		}finally {
 			fieldLock.unlock();
@@ -56,14 +50,14 @@ public class Field {
 	}
 	
 	/**
-	 * moves a car to another field
+	 * moves car to the field
 	 * @param car the car to be moved
 	 */
 	public void occupyField(Car car) {
 		fieldLock.lock();
 		
 		try {
-			//wait for a field to become available
+			//wait for the field to become available if occupied
 			while(occupied) {
 				available.await();
 			}

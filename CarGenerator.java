@@ -3,27 +3,27 @@ import java.util.*;
 import javax.naming.spi.DirectoryManager;
 
 /**
- * Class to generate car objects
- * @author Tom
+ * Class to generate car objects and place them on the intersection
+ * @author 2354160d
  *
  */
 public class CarGenerator implements Runnable{
 
-	//instance variables for generator specific information
+	//information about the intersection
 	protected Intersection intersection;
 	protected int maxRow;
 	protected int maxCol;
+
+	//generator specific information
 	protected int delay;
 	protected boolean active;
-
-
+	protected Map<Integer, String> dirMap;
 
 	//information about the travel time of the cars
 	protected ArrayList<Car> createdCars;
 	protected Log cLog;
 
-	//map for the travel directions
-	protected Map<Integer, String> dirMap;
+	//random generator for car-placement
 	protected Random rand = new Random();
 
 	/**
@@ -31,6 +31,7 @@ public class CarGenerator implements Runnable{
 	 * @param intersection Intersection on which the cars are to be placed
 	 */
 	public CarGenerator(Intersection intersection, Log log) {
+		//set up instance variables
 		this.intersection = intersection;
 		maxRow = intersection.getRows();
 		maxCol = intersection.getColumns();
@@ -49,13 +50,12 @@ public class CarGenerator implements Runnable{
 		createdCars = new ArrayList<>();
 	}
 
+
 	/**
 	 * generate a new car object and place it on the grid
 	 * @return Car the created car
 	 */
 	public Car generateCar() {
-
-
 		//get either EAST or SOUTH for the direction and use the information to set up a move-set
 		String direction = dirMap.get(rand.nextInt(2)+1);
 		MoveSet ms = new MoveSet(direction);
@@ -67,7 +67,7 @@ public class CarGenerator implements Runnable{
 		//reserve space for the car symbol
 		String symbol = "x";
 
-		//update either row or column to first position
+		//update either row or column to first position, depending on direction of the car
 		switch (ms.getMoves()) {
 		case "EAST":
 			symbol = "-";
@@ -78,7 +78,6 @@ public class CarGenerator implements Runnable{
 			symbol = "o";
 			startRow = 0;
 			break;		
-
 		}
 
 		//use the obtained information to create a new car
@@ -88,11 +87,10 @@ public class CarGenerator implements Runnable{
 		createdCars.add(newCar);
 
 		return newCar;
-
 	}
 
 	/**
-	 * run method for the thread
+	 * run method for the thread. Creates cars and places them on the intersection
 	 */
 	@Override
 	public void run() {

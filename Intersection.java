@@ -19,7 +19,7 @@ public class Intersection {
 		grid = new Field[dimM][dimN];
 		for(int x = 0; x < dimM; x++) {
 			for(int y = 0; y < dimN; y++) {
-				grid[x][y] = new Field(x,y);
+				grid[x][y] = new Field();
 			}
 		}
 		rows = dimM;
