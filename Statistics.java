@@ -7,28 +7,36 @@ import java.util.ArrayList;
 public class Statistics {
 
 	//space for values of interest
-	private float overallMax;
-	private float overallMin;
-	private float overallAvg;
+	private double overallMax;
+	private double overallMin;
+	private double average;
 	private int numGens;
 	
 	//array list to store the travel times
-	private ArrayList<Float> times;
+	private ArrayList<Double> times;
 	
 	/**
 	 * Constructor to create a statistics class object
 	 */
 	public Statistics(){
 		numGens = 0;
-		overallAvg = 0;
-		times = new ArrayList<Float>();
+		average = 0;
+		times = new ArrayList<Double>();
 	}
 	
-	public void addTime(float time) {
+	/**
+	 * Add a travel time to the times and increase the number counting the involved generators
+	 * @param time double total travel time of a generator
+	 */
+	public void addTime(double time) {
 		times.add(time);
 		numGens++;
 	}
 
+	/**
+	 * Create a report containing max- min- and average-time as well as variance
+	 * @return String containing the formatted report
+	 */
 	public String getReport() {
 		//check if any cars made it through the grid
 		if(numGens>0) {
@@ -43,10 +51,13 @@ public class Statistics {
 
 	}
 	
+	/**
+	 * Calculates min max and accumulates the total travel time
+	 */
 	private void calculateStatistics(){
 		overallMax = times.get(0);
 		overallMin = overallMax;
-		for(float time : times) {
+		for(double time : times) {
 			updateMax(time);
 			updateMin(time);
 			accumulateTime(time);
@@ -57,7 +68,7 @@ public class Statistics {
 	 * compare given value to the global maximum
 	 * @param max float potential maximum
 	 */
-	private void updateMax(float max) {
+	private void updateMax(double max) {
 		if(max > overallMax) {
 			overallMax = max;
 		}
@@ -67,7 +78,7 @@ public class Statistics {
 	 * compare the given value to the global minimum
 	 * @param min float potential minimum
 	 */
-	private void updateMin(float min) {
+	private void updateMin(double min) {
 		if(min < overallMin) {
 			overallMin = min;
 		}
@@ -77,16 +88,16 @@ public class Statistics {
 	 * sum up the times of the cars which pass through the grid
 	 * @param duration float travel time of a car
 	 */
-	private void accumulateTime(float duration) {
-		overallAvg+=duration;
+	private void accumulateTime(double duration) {
+		average+=duration;
 	}
 	
 	/**
 	 * calculate the average time a car needs to pass through the grid (in seconds)
 	 * @return double the average time of a car in seconds
 	 */
-	private float calcAvg() {
-		return (overallAvg/numGens)/1000;
+	private double calcAvg() {
+		return (average/numGens)/1000;
 	}
 
 	/**
@@ -99,7 +110,7 @@ public class Statistics {
 		double x = calcAvg();
 		double sumOfSquares = 0;
 		//calculate sum(x-xi)^2
-		for(float xi : times) {
+		for(double xi : times) {
 			xi /= 1000;
 			sumOfSquares += Math.pow((xi - x), 2);
 		}

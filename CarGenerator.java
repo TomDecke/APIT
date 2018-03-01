@@ -19,7 +19,7 @@ public class CarGenerator implements Runnable{
 
 	//information about the travel time of the cars
 	protected ArrayList<Car> createdCars;
-	protected float travelTime;
+	protected double totalTravelTime;
 
 	//random generator for car-placement
 	protected Random rand = new Random();
@@ -27,7 +27,6 @@ public class CarGenerator implements Runnable{
 	/**
 	 * Constructor to create a car generator
 	 * @param intersection Intersection on which the cars are to be placed
-	 * @param log Log a log-object to keep track of the stochastic data
 	 */
 	public CarGenerator(Intersection intersection) {
 		//set up instance variables
@@ -50,7 +49,7 @@ public class CarGenerator implements Runnable{
 
 
 	/**
-	 * Generate a new car object and place it on the grid
+	 * Generate a new car object and add it to the list of created cars
 	 * @return Car the created car
 	 */
 	protected Car generateCar() {
@@ -124,7 +123,7 @@ public class CarGenerator implements Runnable{
 		//pass every car that made it through the grid to the log
 		for(Car c : createdCars) {
 			if(!c.isOnGrid()) {
-				travelTime+= c.getTravelTime();
+				totalTravelTime+= c.getTravelTime();
 			}
 		}
 	}
@@ -133,7 +132,7 @@ public class CarGenerator implements Runnable{
 	 * Get the accumulated time of travel for all cars
 	 * @return
 	 */
-	protected float reportTravelTime() {
-		return travelTime;
+	protected double reportTotalTravelTime() {
+		return totalTravelTime;
 	}
 }

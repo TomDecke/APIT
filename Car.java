@@ -172,8 +172,16 @@ public class Car implements Runnable{
 	 * Accessor for the time a car spent on the intersection
 	 * @return long the time a car needed to traverse the grid
 	 */
-	public long getTravelTime() {
+	public double getTravelTime() {
 		return travelTime;
+	}
+	
+	/**
+	 * Mutator for the car speed
+	 * @param speed int the speed to update to
+	 */
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 
 

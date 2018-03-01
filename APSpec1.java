@@ -32,8 +32,5 @@ public class APSpec1 {
 			t[0].join();
 			t[1].join();
 		} catch (InterruptedException e) {}
-		
-		System.out.println("log");
-
 	}
 }

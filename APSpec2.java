@@ -59,14 +59,14 @@ public class APSpec2 {
 		}
 
 		Statistics stats = new Statistics();
-		stats.addTime(eastGenerator.reportTravelTime());
-		stats.addTime(westGenerator.reportTravelTime());
-		stats.addTime(northGenerator.reportTravelTime());
-		stats.addTime(southGenerator.reportTravelTime());
+		stats.addTime(eastGenerator.reportTotalTravelTime());
+		stats.addTime(westGenerator.reportTotalTravelTime());
+		stats.addTime(northGenerator.reportTotalTravelTime());
+		stats.addTime(southGenerator.reportTotalTravelTime());
 		System.out.println(stats.getReport());
-		System.out.println(eastGenerator.reportTravelTime()/1000);
-		System.out.println(westGenerator.reportTravelTime()/1000);
-		System.out.println(southGenerator.reportTravelTime()/1000);
-		System.out.println(northGenerator.reportTravelTime()/1000);
+		System.out.println(eastGenerator.reportTotalTravelTime()/1000);
+		System.out.println(westGenerator.reportTotalTravelTime()/1000);
+		System.out.println(southGenerator.reportTotalTravelTime()/1000);
+		System.out.println(northGenerator.reportTotalTravelTime()/1000);
 	}
 }
