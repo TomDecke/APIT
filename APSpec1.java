@@ -13,10 +13,9 @@ public class APSpec1 {
 		
 		//create the ArrayList for the carGenerators and a Log-class object
 		ArrayList<CarGenerator> carGen = new ArrayList<CarGenerator>();
-		Log log = new Log();
 		
 		//create a new CarGenerator and add it to the ArraList
-		carGen.add(new CarGenerator(intersection,log));
+		carGen.add(new CarGenerator(intersection));
 		
 		//create a simulator running 1000 iterations
 		Simulator simulator = new Simulator(intersection, 1000, carGen);
@@ -33,7 +32,8 @@ public class APSpec1 {
 			t[0].join();
 			t[1].join();
 		} catch (InterruptedException e) {}
-		System.out.println(log.getReport());
+		
+		System.out.println("log");
 
 	}
 }

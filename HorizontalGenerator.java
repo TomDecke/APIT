@@ -20,8 +20,8 @@ public class HorizontalGenerator extends CarGenerator{
 	 * @param delay int delay that is to be applied in between creation of cars
 	 * @see CarGenerator
 	 */
-	public HorizontalGenerator(Intersection intersection, Log log, int[] rows, int direction, int delay) {
-		super(intersection, log);
+	public HorizontalGenerator(Intersection intersection, int[] rows, int direction, int delay) {
+		super(intersection);
 		
 		//derive the direction of the car from map and parameter
 		this.firstDirection = dirMap.get(direction);

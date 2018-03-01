@@ -19,8 +19,8 @@ public class VerticalGenerator extends CarGenerator {
 	 * @param direction int for the first heading of cars; 0 = NORTH, 2 = SOUTH
 	 * @see CarGenerator
 	 */
-	public VerticalGenerator(Intersection intersection, Log log, int[] cols, int direction) {
-		super(intersection,log);
+	public VerticalGenerator(Intersection intersection, int[] cols, int direction) {
+		super(intersection);
 		
 		//derive the direction of the car from map and parameter
 		this.firstDirection = dirMap.get(direction);

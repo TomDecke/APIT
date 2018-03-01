@@ -25,13 +25,11 @@ public class APSpec2 {
 			colsSouth[i]=i+10;
 		}
 		
-		Log log = new Log();
-		
 		//create vehicle generators
-		HorizontalGenerator eastGenerator = new HorizontalGenerator(intersection, log, rowsEast, 1, 750);
-		HorizontalGenerator westGenerator = new HorizontalGenerator(intersection, log, rowsWest, 3, 800);
-		VerticalGenerator northGenerator = new VerticalGenerator(intersection, log, colsNorth, 0);
-		VerticalGenerator southGenerator = new VerticalGenerator(intersection, log, colsSouth, 2);
+		HorizontalGenerator eastGenerator = new HorizontalGenerator(intersection, rowsEast, 1, 750);
+		HorizontalGenerator westGenerator = new HorizontalGenerator(intersection, rowsWest, 3, 800);
+		VerticalGenerator northGenerator = new VerticalGenerator(intersection, colsNorth, 0);
+		VerticalGenerator southGenerator = new VerticalGenerator(intersection, colsSouth, 2);
 
 		//add generators to the array list
 		carGen.add(eastGenerator);
@@ -53,12 +51,22 @@ public class APSpec2 {
 			t[i].start();;
 		}
 		
-		//wait until all threads have finished, then print the log report
+		//wait until all threads have finished
 		for(int i= 0 ; i < 5 ; i++) {
 			try {
 				t[i].join();
 			} catch (InterruptedException e) {};
 		}
-		System.out.println(log.getReport());
+
+		Statistics stats = new Statistics();
+		stats.addTime(eastGenerator.reportTravelTime());
+		stats.addTime(westGenerator.reportTravelTime());
+		stats.addTime(northGenerator.reportTravelTime());
+		stats.addTime(southGenerator.reportTravelTime());
+		System.out.println(stats.getReport());
+		System.out.println(eastGenerator.reportTravelTime()/1000);
+		System.out.println(westGenerator.reportTravelTime()/1000);
+		System.out.println(southGenerator.reportTravelTime()/1000);
+		System.out.println(northGenerator.reportTravelTime()/1000);
 	}
 }
