@@ -1,6 +1,6 @@
 /**
  * Class to represent the intersection
- * @author Tom
+ * @author 2354160d
  *
  */
 public class Intersection {
@@ -9,9 +9,9 @@ public class Intersection {
 	private int cols;
 	
 	/**
-	 * constructor to create an intersection object
-	 * @param dimM int number of rows
-	 * @param dimN int number of columns
+	 * Constructor to create an intersection object
+	 * @param int number of rows
+	 * @param int number of columns
 	 */
 	public Intersection(int dimM, int dimN) {
 		
@@ -25,22 +25,6 @@ public class Intersection {
 		rows = dimM;
 		cols = dimN;
 	}
-	
-	/**
-	 * Check if a field in the grid is empty
-	 * @param row int position in row
-	 * @param col int position in column
-	 * @return boolean whether or not the requested field is empty
-	 */
-	public boolean checkField(int row, int col) {
-		if(grid[row][col] == null) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
 
 	/**
 	 * Accessor for the car grid
@@ -51,7 +35,7 @@ public class Intersection {
 	}
 	
 	/**
-	 * 
+	 * Get a specified field from the intersection
 	 * @param row int position in the row
 	 * @param col int position in the column
 	 * @return Field the field at the specified position

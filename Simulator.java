@@ -1,14 +1,14 @@
 import java.util.*;
 
 /**
- * Class to display the intersection
- * @author Tom
+ * Class to display the intersection on the console
+ * @author 2354160d
  *
  */
 public class Simulator implements Runnable{
 
-	//time intervall between the drawing of intersections
-	private final int INTERVALL = 20;
+	//time interval between the drawing of intersections
+	private final int INTERVAL = 20;
 	//representation of the intersection
 	private Field[][] grid;
 	//amount of times the grid shall be drawn
@@ -25,15 +25,15 @@ public class Simulator implements Runnable{
 	 * Constructor to create a simulator
 	 * @param intersection the intersection that is to be drawn
 	 * @param cap the number of times the grid should be drawn
-	 * @param ArrayList<CarGenerator> list of generators that should add cars to the grid
+	 * @param carGenerators ArrayList<CarGenerator> list of generators that should add cars to the grid
 	 */
-	public Simulator(Intersection intersection, int cap, ArrayList<CarGenerator> carGenerator) {
+	public Simulator(Intersection intersection, int cap, ArrayList<CarGenerator> carGenerators) {
 		this.cap = cap;
 		grid = intersection.getGrid();
 		numCols = intersection.getColumns();
 		numRows = intersection.getRows();
 
-		this.carGen = carGenerator;
+		this.carGen = carGenerators;
 	}
 
 	/**
@@ -81,13 +81,16 @@ public class Simulator implements Runnable{
 		System.out.println("");
 	}
 
+	/**
+	 * Run method. Draws the intersection every 20ms
+	 */
 	@Override
 	public void run() {
 		int counter = 0;
 		//iterate as long as the specified number of iterations isn't reached
 		while(counter <= cap) {
 			try {
-				Thread.sleep(INTERVALL);
+				Thread.sleep(INTERVAL);
 				drawGrid(counter);
 			} catch (InterruptedException e) {}
 

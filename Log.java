@@ -3,17 +3,20 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Class to keep track of max- min- and average time a car needs to pass the grid
- * @author Tom
+ * @author 2354160d
  *
  */
 public class Log {
+	//space for values of interest
 	private float overallMax;
 	private float overallMin;
 	private float overallAvg;
+	private int numCars;
 
+	//space for all cars that traversed the grid
 	private ArrayList<Car> cars;
 
-	private int numCars;
+	//lock to make sure that the log is only altered by one thread at a time
 	private ReentrantLock lock = new ReentrantLock();
 
 	/**
@@ -22,11 +25,17 @@ public class Log {
 	 */
 	public Log() {
 		cars = new ArrayList<Car>();
+		//set overallMax to -1 as a flag for the setUpLog-method
 		overallMax = -1;
 	}
 
+	/**
+	 * Assigns max, min, average and number of cars.
+	 * @param time float containing the time it took one car to traverse the grid
+	 */
 	public void setUpLog(float time) {
 		lock.lock();
+		//make sure no other class has already set up the variables
 		if(overallMax == -1) {
 			overallMax = time;
 			overallMin = overallMax;
@@ -54,10 +63,10 @@ public class Log {
 
 
 	public String getReport() {
-		int n = cars.size();
-		if(n>0) {
+		//check if any cars made it through the grid
+		if(numCars>0) {
 			String text = "%d cars traversed the grid!%nMaximum time: %.2fs%nMinimum time: %.2fs%nAverage time: %.2fs%nVariance: %.2fms";
-			return String.format(text, numCars,(double)overallMax/1000,(double)overallMin/1000,calcAvg(),calcVar(n));
+			return String.format(text, numCars,(double)overallMax/1000,(double)overallMin/1000,calcAvg(),calcVar(numCars));
 		}
 		else {
 			return "No car made it through the grid";
@@ -67,7 +76,7 @@ public class Log {
 
 	/**
 	 * compare given value to the global maximum
-	 * @param max possible maximum
+	 * @param max float potential maximum
 	 */
 	private void updateMax(float max) {
 		if(max > overallMax) {
@@ -77,7 +86,7 @@ public class Log {
 
 	/**
 	 * compare the given value to the global minimum
-	 * @param min possible minimum
+	 * @param min float potential minimum
 	 */
 	private void updateMin(float min) {
 		if(min < overallMin) {
@@ -93,16 +102,26 @@ public class Log {
 		overallAvg+=duration;
 		numCars++;
 	}
+	
+	/**
+	 * calculate the average time a car needs to pass through the grid (in seconds)
+	 * @return double the average time of a car in seconds
+	 */
+	private double calcAvg() {
+		return ((double)overallAvg/numCars)/1000;
+	}
 
 	/**
 	 * calculate the variance of travel time
 	 * @param int number of cars (has to be > 0)
-	 * @return double the variance of travel
+	 * @return double the variance of travel (in ms)
 	 */
 	private double calcVar(int n) {
+		//x at position i
+		double xi;
+		//mean
 		double x = calcAvg();
 		double sumOfSquares = 0;
-		double xi;
 		//calculate sum(x-xi)^2
 		for(int i = 0 ; i < n ; i++) {
 			xi = cars.get(i).getTravelTime()/1000;
@@ -111,14 +130,5 @@ public class Log {
 		//calculate (1/n)*sum(x-xi)^2
 		double variance = sumOfSquares/n;
 		return variance;
-
-	}
-
-	/**
-	 * calculate the average time a car needs to pass through the grid (in seconds)
-	 * @return
-	 */
-	private double calcAvg() {
-		return ((double)overallAvg/numCars)/1000;
 	}
 }

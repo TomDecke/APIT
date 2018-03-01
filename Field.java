@@ -3,7 +3,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Class to represent one field in the grid(intersection)
- * @author Tom
+ * @author 2354160d
  *
  */
 public class Field {
@@ -17,7 +17,7 @@ public class Field {
 	private Condition available = fieldLock.newCondition();
 	
 	/**
-	 * Constructor to create a field 
+	 * Constructor to create a field (on creation empty)
 	 */
 	public Field() {
 		curCar = null;
@@ -33,8 +33,7 @@ public class Field {
 	}
 	
 	/**
-	 * Removes car from the field it was on
-	 * @param car Car that is currently occupying the field
+	 * Removes a car from the field
 	 */
 	public void leaveField() {
 		fieldLock.lock();
@@ -50,8 +49,8 @@ public class Field {
 	}
 	
 	/**
-	 * moves car to the field
-	 * @param car the car to be moved
+	 * Moves a car to the field
+	 * @param car Car the car to be moved
 	 */
 	public void occupyField(Car car) {
 		fieldLock.lock();
@@ -68,8 +67,6 @@ public class Field {
 		}catch (InterruptedException ie) {}
 		finally {
 			fieldLock.unlock();
-		}
-	
-	}
-	
+		}	
+	}	
 }

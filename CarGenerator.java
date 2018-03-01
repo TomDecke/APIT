@@ -1,7 +1,5 @@
 import java.util.*;
 
-import javax.naming.spi.DirectoryManager;
-
 /**
  * Class to generate car objects and place them on the intersection
  * @author 2354160d
@@ -29,6 +27,7 @@ public class CarGenerator implements Runnable{
 	/**
 	 * Constructor to create a car generator
 	 * @param intersection Intersection on which the cars are to be placed
+	 * @param log Log a log-object to keep track of the stochastic data
 	 */
 	public CarGenerator(Intersection intersection, Log log) {
 		//set up instance variables
@@ -52,10 +51,10 @@ public class CarGenerator implements Runnable{
 
 
 	/**
-	 * generate a new car object and place it on the grid
+	 * Generate a new car object and place it on the grid
 	 * @return Car the created car
 	 */
-	public Car generateCar() {
+	protected Car generateCar() {
 		//get either EAST or SOUTH for the direction and use the information to set up a move-set
 		String direction = dirMap.get(rand.nextInt(2)+1);
 		MoveSet ms = new MoveSet(direction);
@@ -90,12 +89,11 @@ public class CarGenerator implements Runnable{
 	}
 
 	/**
-	 * run method for the thread. Creates cars and places them on the intersection
+	 * Run method for the thread. Creates cars and places them on the intersection
 	 */
 	@Override
 	public void run() {
 		//create an space for the car threads
-		ArrayList<Thread> threads = new ArrayList<>();
 		while(active) {
 			try {
 				//slow down the car creation
@@ -105,18 +103,17 @@ public class CarGenerator implements Runnable{
 			Car cCar = generateCar();
 			cCar.addCarToGrid();
 
-			//add the car to the threads and start it 
-			threads.add(new Thread(cCar));
-			threads.get(threads.size()-1).start();
+			//create a new thread with the created car and start it
+			new Thread(cCar).start();
 		}
 		//after being deactivated from the simulator, calculate the statistics
 		calculateStatistics();
 	}
 
 	/**
-	 * deactivates the car generator
+	 * Deactivates the car generator
 	 */
-	public void deactivateGenerator() {
+	protected void deactivateGenerator() {
 		this.active = false;
 	}
 
@@ -124,16 +121,16 @@ public class CarGenerator implements Runnable{
 	 * Iterates through the created cars and updates the log-class
 	 */
 	private void calculateStatistics() {
-		//find the first car that traversed the grid to set the initial value
+		
+		//pass every car that made it through the grid to the log
+		boolean foundFirst = false;
 		for(Car c : createdCars) {
 			if(!c.isOnGrid()) {
-				cLog.setUpLog(c.getTravelTime());
-				break;
-			}
-		}
-		//pass every car that made it through the grid to the log
-		for(Car c : createdCars) {
-			if(!(c.isOnGrid())) {
+				//use the first car that traversed the grid to set the initial values
+				if(!foundFirst) {
+					cLog.setUpLog(c.getTravelTime());
+					foundFirst = true;
+				}
 				cLog.passCarToLog(c);
 			}
 		}

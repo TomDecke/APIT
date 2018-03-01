@@ -56,8 +56,8 @@ public class Car implements Runnable{
 	}
 
 	/**
-	 * move the car on the grid
-	 * @param String with the direction of movement
+	 * Move the car on the grid
+	 * @param currentMove String with the direction of movement
 	 */
 	public void moveCar(String currentMove) {
 		//based on the direction, check if you have reached the end of the grid and if not execute the movement
@@ -137,7 +137,7 @@ public class Car implements Runnable{
 	}
 
 	/**
-	 * run method for the thread. It moves the car as long as it is on the grid
+	 * Run method for the thread. It moves the car as long as it is on the grid
 	 */
 	@Override
 	public void run() {
@@ -170,7 +170,7 @@ public class Car implements Runnable{
 
 	/**
 	 * Accessor for the time a car spent on the intersection
-	 * @return long 
+	 * @return long the time a car needed to traverse the grid
 	 */
 	public long getTravelTime() {
 		return travelTime;

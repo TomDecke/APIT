@@ -1,8 +1,5 @@
-import java.util.*;
-
 /**
- * generator that creates cars that are going horizontal
- * @
+ * Class to represent a generator that creates cars going from east to west or vice versa
  * @author Tom
  *
  */
@@ -20,6 +17,7 @@ public class HorizontalGenerator extends CarGenerator{
 	 * @param intersection grid on which the cars move
 	 * @param rows int[] referring to the rows on which the generator is to be applied
 	 * @param direction int for the first heading of cars; 1 = EAST, 3 = WEST
+	 * @param delay int delay that is to be applied in between creation of cars
 	 * @see CarGenerator
 	 */
 	public HorizontalGenerator(Intersection intersection, Log log, int[] rows, int direction, int delay) {
@@ -35,8 +33,8 @@ public class HorizontalGenerator extends CarGenerator{
 
 
 	/**
-	 * create a car that goes either west or east
-	 * @return Car 
+	 * Create a car that starts either west or east
+	 * @return Car the generated car
 	 */
 	@Override
 	public Car generateCar() {

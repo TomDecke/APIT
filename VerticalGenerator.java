@@ -1,16 +1,20 @@
-import java.util.ArrayList;
-
+/**
+ * Class to represent a generator that creates cars going from north to south or vice versa
+ * @author 2354160d
+ *
+ */
 public class VerticalGenerator extends CarGenerator {
 
 	//the columns the generator is applied to
 	private int[] cols;
+	//direction the car is supposed to move
 	private String firstDirection;
 	private String symbol = "o";
 
 
 	/**
-	 * Uses the constructor of the CarGenerator to create a vertical generator
-	 * @param intersection grid on which the cars move
+	 * Use the constructor of the CarGenerator to create a vertical generator
+	 * @param intersection Intersection grid on which the cars move
 	 * @param cols int[] referring to the columns on which the generator is to be applied
 	 * @param direction int for the first heading of cars; 0 = NORTH, 2 = SOUTH
 	 * @see CarGenerator
@@ -27,6 +31,10 @@ public class VerticalGenerator extends CarGenerator {
 	}
 
 
+	/**
+	 * Create a car that starts either north or south
+	 * @return Car the generated car
+	 */
 	@Override
 	public Car generateCar() {
 
