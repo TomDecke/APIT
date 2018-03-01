@@ -12,7 +12,7 @@ public class Main {
 		ArrayList<CarGenerator> carGen = new ArrayList<CarGenerator>();
 		Log log = new Log();
 		carGen.add(new CarGenerator(intersection,log));
-		Simulator simulator = new Simulator(intersection, 500, carGen);
+		Simulator simulator = new Simulator(intersection, 1000, carGen);
 		
 		Thread[] t = new Thread[2];
 		t[0] = new Thread(simulator);

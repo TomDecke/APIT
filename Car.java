@@ -89,7 +89,7 @@ public class Car implements Runnable{
 			}
 			break;
 			
-			
+		//analogous to case "NORTH"	
 		case "SOUTH":
 			if(currentRow + 1 >= numRows) {
 				removeCarFromGrid();
@@ -101,7 +101,7 @@ public class Car implements Runnable{
 			}
 			break;
 			
-
+		//analogous to case "NORTH"
 		case "WEST":
 			if(currentColumn - 1 < 0) {
 				removeCarFromGrid();
@@ -131,7 +131,7 @@ public class Car implements Runnable{
 	public void removeCarFromGrid() {
 		intersection.getFieldAtPosition(currentRow, currentColumn).leaveField();
 		onGrid = false;
-		//calculate the time it took a single car to cross the intersection
+		//calculate the time it took the car to cross the intersection
 		long endTime = System.currentTimeMillis();
 		travelTime = endTime - travelTime;
 	}

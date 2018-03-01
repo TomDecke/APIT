@@ -15,8 +15,8 @@ public class CarGenerator implements Runnable{
 	protected int maxCol;
 	protected int delay;
 	protected boolean active;
-	
-	
+
+
 
 	//information about the travel time of the cars
 	protected ArrayList<Car> createdCars;
@@ -43,7 +43,7 @@ public class CarGenerator implements Runnable{
 		dirMap.put(1, "EAST");
 		dirMap.put(2, "SOUTH");
 		dirMap.put(3, "WEST");
-		
+
 		//initialize delay and space for the cars
 		delay = 200;
 		createdCars = new ArrayList<>();
@@ -121,26 +121,23 @@ public class CarGenerator implements Runnable{
 	public void deactivateGenerator() {
 		this.active = false;
 	}
-	
+
 	/**
 	 * Iterates through the created cars and updates the log-class
 	 */
 	private void calculateStatistics() {
-		int numCars = createdCars.size();
-		//Make sure that the thread created cars
-		if(numCars != 0) {
-			//find the first car that traversed the grid to set the initial value
-			for(Car c : createdCars) {
-				if(!c.isOnGrid()) {
-					cLog.setUpLog(c.getTravelTime());
-				}
+		//find the first car that traversed the grid to set the initial value
+		for(Car c : createdCars) {
+			if(!c.isOnGrid()) {
+				cLog.setUpLog(c.getTravelTime());
+				break;
 			}
-			//pass every car that made it through the grid to the log
-			for(Car c : createdCars) {
-				if(!(c.isOnGrid())) {
-					cLog.passCarToLog(c);
-				}
+		}
+		//pass every car that made it through the grid to the log
+		for(Car c : createdCars) {
+			if(!(c.isOnGrid())) {
+				cLog.passCarToLog(c);
 			}
-		}	
+		}
 	}
 }

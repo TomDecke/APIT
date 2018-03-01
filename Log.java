@@ -47,7 +47,6 @@ public class Log {
 		updateMax(travelTime);
 		updateMin(travelTime);
 		accumulateTime(travelTime);
-		System.out.println("Hello");
 		cars.add(car);
 		lock.unlock();
 	}
@@ -58,7 +57,7 @@ public class Log {
 		int n = cars.size();
 		if(n>0) {
 			String text = "%d cars traversed the grid!%nMaximum time: %.2fs%nMinimum time: %.2fs%nAverage time: %.2fs%nVariance: %.2fms";
-			return String.format(text, numCars,(double)overallMax/1000,(double)overallMin/1000,calcAvg()/1000,calcVar(n));
+			return String.format(text, numCars,(double)overallMax/1000,(double)overallMin/1000,calcAvg(),calcVar(n));
 		}
 		else {
 			return "No car made it through the grid";
@@ -101,24 +100,25 @@ public class Log {
 	 * @return double the variance of travel
 	 */
 	private double calcVar(int n) {
-		double avg = calcAvg();
+		double x = calcAvg();
 		double sumOfSquares = 0;
+		double xi;
 		//calculate sum(x-xi)^2
 		for(int i = 0 ; i < n ; i++) {
-			sumOfSquares += Math.pow((cars.get(i).getTravelTime() - avg), 2);
-			System.out.println(sumOfSquares);
+			xi = cars.get(i).getTravelTime()/1000;
+			sumOfSquares += Math.pow((xi - x), 2);
 		}
 		//calculate (1/n)*sum(x-xi)^2
-		double variance = (1/n)*sumOfSquares;
+		double variance = sumOfSquares/n;
 		return variance;
 
 	}
 
 	/**
-	 * calculate the average time a car needs to pass through the grid
+	 * calculate the average time a car needs to pass through the grid (in seconds)
 	 * @return
 	 */
 	private double calcAvg() {
-		return (double)overallAvg/numCars;
+		return ((double)overallAvg/numCars)/1000;
 	}
 }
