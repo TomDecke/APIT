@@ -2,23 +2,28 @@ import java.util.ArrayList;
 
 public class VerticalGenerator extends CarGenerator {
 
-	//the row the generator is applied to
-	private int col;
+	//the columns the generator is applied to
+	private int[] cols;
 	private String firstDirection;
 	private String symbol = "o";
 
-	//Constructor to create 
+
 	/**
-	 * constructor to create
+	 * Uses the constructor of the CarGenerator to create a vertical generator
 	 * @param intersection grid on which the cars move
-	 * @param row int referring to the row on which the generator is to be applied
+	 * @param cols int[] referring to the columns on which the generator is to be applied
 	 * @param direction int for the first heading of cars; 0 = NORTH, 2 = SOUTH
+	 * @see CarGenerator
 	 */
-	public VerticalGenerator(Intersection intersection, int col, int direction) {
-		super(intersection);
-		//TODO do I have to check for this? Could I do this with a flag
+	public VerticalGenerator(Intersection intersection, Log log, int[] cols, int direction) {
+		super(intersection,log);
+		
+		//derive the direction of the car from map and parameter
 		this.firstDirection = dirMap.get(direction);
-		this.col = col;
+		this.cols = cols;
+		
+		//assign a random delay in in the range[500,1000) to the generator
+		super.delay = rand.nextInt(500)+500;
 	}
 
 
@@ -29,10 +34,13 @@ public class VerticalGenerator extends CarGenerator {
 		MoveSet ms = new MoveSet(firstDirection);
 
 		int row = 0;
+		//if the car heads north change start row to the south-most position in the grid
 		if(firstDirection.equals("NORTH")) {
 			row = maxRow-1;
 		}
 		
+		//determine a random start column
+		int col = cols[rand.nextInt(cols.length)];
 		//use the obtained information to create a new car
 		Car newCar = new Car(ms, symbol, row, col,intersection);
 
@@ -40,24 +48,5 @@ public class VerticalGenerator extends CarGenerator {
 		createdCars.add(newCar);
 
 		return newCar;
-	}
-
-	//TODO do I really have to override this one?
-	@Override
-	public void run() {
-		//create an space for the car threads
-		ArrayList<Thread> threads = new ArrayList<>();
-		while(active) {
-			try {
-				//slow down the car creation
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {}
-			Car cCar = generateCar();
-			cCar.addCarToGrid();
-
-			//add the car to the threads and start it 
-			threads.add(new Thread(cCar));
-			threads.get(threads.size()-1).start();
-		}
 	}
 }

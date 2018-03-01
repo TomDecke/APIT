@@ -185,7 +185,7 @@ public class Car implements Runnable{
 	 * Accessor for the boolean stating if the car is on the grid
 	 * @return boolean whether the car is on the grid
 	 */
-	public boolean getOnGrid() {
+	public boolean isOnGrid() {
 		return onGrid; 
 	}
 	

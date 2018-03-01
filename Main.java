@@ -7,11 +7,12 @@ import java.util.ArrayList;
  */
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 		Intersection intersection = new Intersection(10, 20);
 		ArrayList<CarGenerator> carGen = new ArrayList<CarGenerator>();
-		carGen.add(new CarGenerator(intersection));
-		Simulator simulator = new Simulator(intersection, 1000, carGen);
+		Log log = new Log();
+		carGen.add(new CarGenerator(intersection,log));
+		Simulator simulator = new Simulator(intersection, 500, carGen);
 		
 		Thread[] t = new Thread[2];
 		t[0] = new Thread(simulator);
@@ -19,5 +20,13 @@ public class Main {
 		
 		t[0].start();
 		t[1].start();
+		
+
+		try {
+			t[0].join();
+			t[1].join();
+		} catch (InterruptedException e) {}
+		System.out.println(log.getReport());
+		
 	}
 }

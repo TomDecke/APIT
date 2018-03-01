@@ -9,28 +9,33 @@ import javax.naming.spi.DirectoryManager;
  */
 public class CarGenerator implements Runnable{
 
+	//instance variables for generator specific information
 	protected Intersection intersection;
 	protected int maxRow;
 	protected int maxCol;
+	protected int delay;
 	protected boolean active;
+	
+	
 
 	//information about the travel time of the cars
 	protected ArrayList<Car> createdCars;
-	protected long minTime;
-	protected long maxTime;
-	protected double avgTime;
+	protected Log cLog;
 
+	//map for the travel directions
 	protected Map<Integer, String> dirMap;
+	protected Random rand = new Random();
 
 	/**
 	 * Constructor to create a car generator
 	 * @param intersection Intersection on which the cars are to be placed
 	 */
-	public CarGenerator(Intersection intersection) {
+	public CarGenerator(Intersection intersection, Log log) {
 		this.intersection = intersection;
 		maxRow = intersection.getRows();
 		maxCol = intersection.getColumns();
 		active = true;
+		this.cLog = log;
 
 		//create a hashmap that includes the possible movement directions
 		dirMap = new HashMap<Integer,String>();
@@ -38,17 +43,20 @@ public class CarGenerator implements Runnable{
 		dirMap.put(1, "EAST");
 		dirMap.put(2, "SOUTH");
 		dirMap.put(3, "WEST");
-
+		
+		//initialize delay and space for the cars
+		delay = 200;
 		createdCars = new ArrayList<>();
 	}
 
 	/**
 	 * generate a new car object and place it on the grid
+	 * @return Car the created car
 	 */
 	public Car generateCar() {
 
-		Random rand = new Random();
-		//get either EAST or SOUTH for the direction
+
+		//get either EAST or SOUTH for the direction and use the information to set up a move-set
 		String direction = dirMap.get(rand.nextInt(2)+1);
 		MoveSet ms = new MoveSet(direction);
 
@@ -59,7 +67,7 @@ public class CarGenerator implements Runnable{
 		//reserve space for the car symbol
 		String symbol = "x";
 
-		//update to either row or column to first position
+		//update either row or column to first position
 		switch (ms.getMoves()) {
 		case "EAST":
 			symbol = "-";
@@ -93,8 +101,9 @@ public class CarGenerator implements Runnable{
 		while(active) {
 			try {
 				//slow down the car creation
-				Thread.sleep(200);
+				Thread.sleep(delay);
 			} catch (InterruptedException e) {}
+			//create a car and add it to the grid
 			Car cCar = generateCar();
 			cCar.addCarToGrid();
 
@@ -102,34 +111,36 @@ public class CarGenerator implements Runnable{
 			threads.add(new Thread(cCar));
 			threads.get(threads.size()-1).start();
 		}
+		//after being deactivated from the simulator, calculate the statistics
 		calculateStatistics();
 	}
 
-	public void setActive(boolean active) {
-		this.active = active;
+	/**
+	 * deactivates the car generator
+	 */
+	public void deactivateGenerator() {
+		this.active = false;
 	}
-
-	public void calculateStatistics() {
+	
+	/**
+	 * Iterates through the created cars and updates the log-class
+	 */
+	private void calculateStatistics() {
 		int numCars = createdCars.size();
+		//Make sure that the thread created cars
 		if(numCars != 0) {
-			minTime = createdCars.get(0).getTravelTime();
-			maxTime = minTime;
-			avgTime = minTime;
-			//TODO re-think
-			for(int i = 1; i < numCars-1 ; i++) {
-				long currentTime = createdCars.get(i).getTravelTime();
-				if(currentTime > maxTime) {
-					maxTime = currentTime;
+			//find the first car that traversed the grid to set the initial value
+			for(Car c : createdCars) {
+				if(!c.isOnGrid()) {
+					cLog.setUpLog(c.getTravelTime());
 				}
-				else if(currentTime < minTime) {
-					minTime = currentTime;
-				}
-				avgTime += currentTime;
 			}
-			avgTime = avgTime/numCars;
-		}
-		System.out.println(numCars);
-		System.out.println("min: " + (double)minTime/1000 + " max: " + maxTime/1000 +" avg: "+ avgTime/1000);
+			//pass every car that made it through the grid to the log
+			for(Car c : createdCars) {
+				if(!(c.isOnGrid())) {
+					cLog.passCarToLog(c);
+				}
+			}
+		}	
 	}
-
 }
