@@ -107,6 +107,7 @@ public class CarGenerator implements Runnable{
 		//after being deactivated from the simulator, calculate the statistics
 		accumulateTravelTime();
 	}
+	
 
 	/**
 	 * Deactivates the car generator

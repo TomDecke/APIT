@@ -183,6 +183,4 @@ public class Car implements Runnable{
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-
-
 }

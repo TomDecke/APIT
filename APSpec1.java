@@ -26,11 +26,13 @@ public class APSpec1 {
 		t[1] = new Thread(carGen.get(0));
 		t[0].start();
 		t[1].start();
-
-		//wait until all threads have finished to print out the log
+		
+		//wait until generator and simulator are done and end the program
 		try {
 			t[0].join();
 			t[1].join();
+			System.exit(0);
 		} catch (InterruptedException e) {}
+		
 	}
 }

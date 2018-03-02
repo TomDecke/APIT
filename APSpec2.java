@@ -58,15 +58,15 @@ public class APSpec2 {
 			} catch (InterruptedException e) {};
 		}
 
+		//get the statistics
 		Statistics stats = new Statistics();
 		stats.addTime(eastGenerator.reportTotalTravelTime());
 		stats.addTime(westGenerator.reportTotalTravelTime());
 		stats.addTime(northGenerator.reportTotalTravelTime());
 		stats.addTime(southGenerator.reportTotalTravelTime());
 		System.out.println(stats.getReport());
-		System.out.println(eastGenerator.reportTotalTravelTime()/1000);
-		System.out.println(westGenerator.reportTotalTravelTime()/1000);
-		System.out.println(southGenerator.reportTotalTravelTime()/1000);
-		System.out.println(northGenerator.reportTotalTravelTime()/1000);
+		
+		//end the program
+		System.exit(0);
 	}
 }
