@@ -37,7 +37,7 @@ public class APSpec2 {
 		carGen.add(southGenerator);
 		carGen.add(westGenerator);
 
-		//create the simulator
+		//create the simulator running 600 times
 		Simulator simulator = new Simulator(intersection, 600, carGen);
 
 		//create threads for generators and simulator and start them
