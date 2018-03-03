@@ -14,16 +14,16 @@ public class APSpecTest {
 		//create the ArrayList for the carGenerators and a Log-class object
 		ArrayList<CarGenerator> carGen = new ArrayList<CarGenerator>();
 		
-		//create a new CarGenerator and add it to the ArraList
+		//create a TestGenerators and add them to the ArraList
 		TestGenerator tg1 = new TestGenerator(intersection,true);
 		TestGenerator tg2 = new TestGenerator(intersection,false);
 		carGen.add(tg1);
 		carGen.add(tg2);
 		
-		//create a simulator running 1000 iterations
-		Simulator simulator = new Simulator(intersection, 1500, carGen);
+		//create the simulator for testing
+		Simulator simulator = new Simulator(intersection, 300, carGen);
 
-		//create and start threads for the simulator and the carGenerator
+		//create and start threads for the simulator and the generators
 		Thread[] t = new Thread[3];
 		t[0] = new Thread(simulator);
 		t[1] = new Thread(carGen.get(0));
@@ -32,14 +32,17 @@ public class APSpecTest {
 		t[1].start();
 		t[2].start();
 		
-		//wait until generator and simulator are done and end the program
+		//wait until generator and simulator are done, then print statistics
 		try {
 			t[0].join();
 			t[1].join();
 			t[2].join();
-			tg1.determineTraffic();
-			tg2.determineTraffic();
 		} catch (InterruptedException e) {}
+		Statistics stats = new Statistics();
+		stats.addTime(tg1.reportTotalTravelTime());
+		stats.addTime(tg2.reportTotalTravelTime());
+		System.out.println(stats.getReport());
+		System.exit(0);
 		
 		
 	}

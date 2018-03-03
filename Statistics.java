@@ -11,6 +11,7 @@ public class Statistics {
 	private double overallMin;
 	private double average;
 	private int numGens;
+	private int numContrib;
 	
 	//array list to store the travel times
 	private ArrayList<Double> times;
@@ -20,6 +21,7 @@ public class Statistics {
 	 */
 	public Statistics(){
 		numGens = 0;
+		numContrib = 0;
 		average = 0;
 		times = new ArrayList<Double>();
 	}
@@ -29,7 +31,11 @@ public class Statistics {
 	 * @param time double total travel time of a generator
 	 */
 	public void addTime(double time) {
-		times.add(time);
+		//make sure the generator passed cars trhough the grid
+		if(time > 0) {
+			times.add(time);
+			numContrib++;
+		}
 		numGens++;
 	}
 
@@ -40,10 +46,16 @@ public class Statistics {
 	public String getReport() {
 		//check if any cars made it through the grid
 		if(numGens>0) {
-			//calculate max min and avg
-			calculateStatistics();
-			String text = "%d Generators created!%nMaximum time: %.2fs%nMinimum time: %.2fs%nAverage time: %.2fs%nVariance: %.2fs";
-			return String.format(text, numGens,(double)overallMax/1000,(double)overallMin/1000,calcAvg(),calcVar(numGens));
+			if(times.size()>0) {
+				//calculate max min and avg
+				calculateStatistics();
+				String text = "%d Generators created!%nMaximum time: %.2fs%nMinimum time: %.2fs%nAverage time: %.2fs%nVariance: %.2fs";
+				return String.format(text, numGens,(double)overallMax/1000,(double)overallMin/1000,calcAvg(),calcVar(numContrib));
+			}
+			else {
+				return "No car made it through the grid";
+			}
+
 		}
 		else {
 			return "No generators were added";
@@ -58,9 +70,11 @@ public class Statistics {
 		overallMax = times.get(0);
 		overallMin = overallMax;
 		for(double time : times) {
-			updateMax(time);
-			updateMin(time);
-			accumulateTime(time);
+			if(time != 0) {
+				updateMax(time);
+				updateMin(time);
+				accumulateTime(time);
+			}
 		}
 	}
 
@@ -97,7 +111,7 @@ public class Statistics {
 	 * @return double the average time of a car in seconds
 	 */
 	private double calcAvg() {
-		return (average/numGens)/1000;
+		return (average/numContrib)/1000;
 	}
 
 	/**

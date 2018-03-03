@@ -5,13 +5,18 @@
  */
 public class TestGenerator extends CarGenerator{
 
+	//properties for the test cars
 	private boolean horizontal;
 	private int row;
 	private int col;
 	private String symbol;
 	
-	private int placed = 0;
 	
+	/**
+	 * 
+	 * @param intersection Intersection, the shared intersection
+	 * @param dir boolean determining if the car goes horizontal or vertical
+	 */
 	public TestGenerator(Intersection intersection, boolean dir) {
 		super(intersection);
 		horizontal = dir;
@@ -20,19 +25,20 @@ public class TestGenerator extends CarGenerator{
 	@Override
 	public Car generateCar() {
 		
-		//determine the first move of the car
+		
 		Car newCar;
 		MoveSet ms;
+		//initialize the car to go either east or south on one row/column
 		if(horizontal) {
 			ms = new MoveSet("EAST");
 			row = 5;
 			col = 0;
 			symbol = "-";
+			//different delays that were used to test the program behaviour
 			super.delay = 1000;
 			//super.delay = 2000;
 			//super.delay = 3000;
-			newCar = new Car(ms, symbol, row, col,intersection);
-			
+			newCar = new Car(ms, symbol, row, col,intersection);	
 
 		}
 		else {
@@ -48,19 +54,8 @@ public class TestGenerator extends CarGenerator{
 
 		//add the created car to the list of cars created by this generator
 		createdCars.add(newCar);
-		placed++;
 
 		return newCar;
 	}
-	
-	public void determineTraffic() {
-		int left = 0;
-		for(Car c : createdCars) {
-			if(!c.isOnGrid()) {
-				left++;
-			}
-		}
-		String report = String.format("%d %s were put on the grid. %d left the grid. Please count the remaining cars.", placed,symbol,left);
-		System.out.println(report);
-	}
+
 }
