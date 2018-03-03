@@ -21,7 +21,7 @@ public class APSpecTest {
 		carGen.add(tg2);
 		
 		//create the simulator for testing
-		Simulator simulator = new Simulator(intersection, 300, carGen);
+		Simulator simulator = new Simulator(intersection, 1000, carGen);
 
 		//create and start threads for the simulator and the generators
 		Thread[] t = new Thread[3];
@@ -36,12 +36,12 @@ public class APSpecTest {
 		try {
 			t[0].join();
 			t[1].join();
-			t[2].join();
 		} catch (InterruptedException e) {}
 		Statistics stats = new Statistics();
 		stats.addTime(tg1.reportTotalTravelTime());
 		stats.addTime(tg2.reportTotalTravelTime());
 		System.out.println(stats.getReport());
+		System.out.println("Difference between cars entered and leaving: " + CarTrack.getDifference());
 		System.exit(0);
 		
 		
