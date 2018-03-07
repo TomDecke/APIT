@@ -4,6 +4,8 @@
  *
  */
 public class Intersection {
+	
+	//field-matrix to model the intersection
 	private Field[][] grid;
 	private int rows;
 	private int cols;

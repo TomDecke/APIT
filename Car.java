@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
- * Class to model a car.
+ * Class to model a car
  * @author 2354160d
  *
  */
@@ -28,7 +28,7 @@ public class Car implements Runnable{
 	private int numCols;
 
 	/**
-	 * Constructor to create a car object.
+	 * Constructor to create a car object
 	 * 
 	 * @param move MoveSet determining the direction of movement
 	 * @param symbol String for the representation on the grid
@@ -122,7 +122,6 @@ public class Car implements Runnable{
 		intersection.getFieldAtPosition(currentRow, currentColumn).occupyField(this);
 		//remember the time when the car enters the intersection
 		travelTime = System.currentTimeMillis();
-		CarTrack.incrementEnter();
 	}
 
 	/**
@@ -135,7 +134,6 @@ public class Car implements Runnable{
 		//calculate the time it took the car to cross the intersection
 		long endTime = System.currentTimeMillis();
 		travelTime = endTime - travelTime;
-		CarTrack.incrementLeave();
 	}
 
 	/**

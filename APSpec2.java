@@ -9,8 +9,10 @@ public class APSpec2 {
 	
 	public static void main(String[] args) {
 		
-		
+		//create a new intersection, size 10x20
 		Intersection intersection = new Intersection(10, 20);
+		
+		//create the ArrayList for the carGenerators
 		ArrayList<CarGenerator> carGen = new ArrayList<CarGenerator>();
 		
 		//create int arrays to store the rows/columns on which generators are to be applied

@@ -1,6 +1,6 @@
 /**
  * Class to represent a generator that creates cars going from east to west or vice versa
- * @author Tom
+ * @author 2354160d
  *
  */
 public class HorizontalGenerator extends CarGenerator{

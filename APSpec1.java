@@ -11,7 +11,7 @@ public class APSpec1 {
 		//create a new intersection, size 10x20
 		Intersection intersection = new Intersection(10, 20);
 		
-		//create the ArrayList for the carGenerators and a Log-class object
+		//create the ArrayList for the carGenerators
 		ArrayList<CarGenerator> carGen = new ArrayList<CarGenerator>();
 		
 		//create a new CarGenerator and add it to the ArraList

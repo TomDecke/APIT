@@ -13,7 +13,7 @@ public class TestGenerator extends CarGenerator{
 	
 	
 	/**
-	 * 
+	 * Constructor to create a test generator
 	 * @param intersection Intersection, the shared intersection
 	 * @param dir boolean determining if the car goes horizontal or vertical
 	 */
@@ -34,11 +34,12 @@ public class TestGenerator extends CarGenerator{
 			row = 5;
 			col = 0;
 			symbol = "-";
-			//different delays that were used to test the program behaviour
+			//different delays that were used to test the program behavior
 			super.delay = 1000;
 			//super.delay = 2000;
 			//super.delay = 3000;
-			newCar = new Car(ms, symbol, row, col,intersection);	
+			newCar = new Car(ms, symbol, row, col,intersection);
+			newCar.setSpeed(300);
 
 		}
 		else {
@@ -47,7 +48,7 @@ public class TestGenerator extends CarGenerator{
 			row = 0;
 			symbol = "o";
 			newCar = new Car(ms, symbol, row, col,intersection);
-			newCar.setSpeed(500);
+			newCar.setSpeed(700);
 			super.delay = 1000;
 
 		}

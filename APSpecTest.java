@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Main class to start test the functionality
+ * Main class to test the functionality
  * @author 2354160d
  *
  */
@@ -11,7 +11,7 @@ public class APSpecTest {
 		//create a new intersection, size 10x20
 		Intersection intersection = new Intersection(10, 20);
 		
-		//create the ArrayList for the carGenerators and a Log-class object
+		//create the ArrayList for the carGenerators
 		ArrayList<CarGenerator> carGen = new ArrayList<CarGenerator>();
 		
 		//create a TestGenerators and add them to the ArraList
@@ -20,8 +20,11 @@ public class APSpecTest {
 		carGen.add(tg1);
 		carGen.add(tg2);
 		
+
+
+		
 		//create the simulator for testing
-		Simulator simulator = new Simulator(intersection, 1000, carGen);
+		Simulator simulator = new Simulator(intersection, 500, carGen);
 
 		//create and start threads for the simulator and the generators
 		Thread[] t = new Thread[3];
@@ -41,7 +44,6 @@ public class APSpecTest {
 		stats.addTime(tg1.reportTotalTravelTime());
 		stats.addTime(tg2.reportTotalTravelTime());
 		System.out.println(stats.getReport());
-		System.out.println("Difference between cars entered and leaving: " + CarTrack.getDifference());
 		System.exit(0);
 		
 		

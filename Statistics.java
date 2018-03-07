@@ -123,12 +123,12 @@ public class Statistics {
 		//mean
 		double x = calcAvg();
 		double sumOfSquares = 0;
-		//calculate sum(x-xi)^2
+		//calculate sum(xi-x)^2
 		for(double xi : times) {
 			xi /= 1000;
 			sumOfSquares += Math.pow((xi - x), 2);
 		}
-		//calculate (1/n)*sum(x-xi)^2
+		//calculate (1/n)*sum(xi-x)^2
 		double variance = sumOfSquares/n;
 		return variance/1000;
 	}
